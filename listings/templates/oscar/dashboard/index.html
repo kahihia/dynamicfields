@@ -1,0 +1,58 @@
+{% extends 'oscar/dashboard/layout.html' %}
+{% load i18n %}
+
+{% block body_class %}{{ block.super }}  home{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <meta http-equiv="refresh" content="300">
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block headertext %}
+{% trans "Dashboard" %}
+{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="table-header">
+    <i class="fas fa-signal"></i> {% trans "Your Store Statistics" %}
+</div>
+
+<div class="content-block">
+    <div class="row">
+        <aside class="col-md-3 order-graph-details">
+            <label><span><i class="fas fa-shopping-cart"></i>{{ total_orders_last_day }}</span>{% trans "Total Orders" %}</label>
+            <label><span><i class="fas fa-hand-point-right"></i>{{ total_customers_last_day }}</span>{% trans "New Customers" %}</label>
+            <label><span><i class="fas fa-users"></i>{{ total_customers }}</span>{% trans "Total Customers" %}</label>
+            <label><span><i class="fas fa-briefcase"></i>{{ total_products }}</span>{% trans "Total Products" %}</label>
+        </aside>
+        <div class="col-md-9">
+            <div id="order_graph">
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+       
+    </div>
+
+    <div class="col-md-4">
+       </div>
+
+    <div class="col-md-4">
+       
+    </div>
+</div>
+
+<div class="row">
+    <di
+</div>
+
+{% endblock %}

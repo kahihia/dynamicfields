@@ -1,0 +1,8 @@
+Django==3.2.3
+django-haystack==3.1.1
+django-phonenumber-field==5.2.0
+django-phonenumbers==1.0.1
+django-tables2==2.4.0
+django-widget-tweaks==1.4.8
+phonenumbers==8.12.31
+whoosh

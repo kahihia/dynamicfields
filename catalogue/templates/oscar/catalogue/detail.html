@@ -1,0 +1,77 @@
+{% extends "oscar/layout.html" %}
+
+{% load product_tags %}
+{% load display_tags %}
+{% load i18n %}
+
+{% block title %}
+    {{ product.get_meta_title }} | {{ block.super }}
+{% endblock %}
+
+{% block description %}
+    {{ product.get_meta_description }}
+{% endblock %}
+{% block header %}
+{% endblock header %}
+
+{% block content %}
+
+<article class="product_page"><!-- Start of product page -->
+
+    <div class="row">
+
+
+        {% block product_main %}
+        <div class="col-sm-6 product_main">
+            {% comment %}
+                This is a bit clunky here.  Better to have some kind of JS-driven dashboard menu that
+                pops out when clicked.  A bit like the Django-Debug-Toolbar button
+            {% endcomment %}
+            {% if user.is_staff %}
+                <a class="float-right d-none d-md-block" href="{% url 'dashboard:catalogue-product' pk=product.id %}">
+                    <small><i class="fas fa-pencil-alt"></i> {% trans "Edit this product" %}</small>
+                </a>
+            {% endif %}
+            <h1>{{ product.get_title }}</h1>
+
+            <hr/>
+
+            
+        </div><!-- /col-sm-6 -->
+        {% endblock %}
+
+    </div><!-- /row -->
+
+    {% block product_description %}
+        {% if product.description %}
+        <div id="product_description" class="sub-header">
+            <h2>{% trans "Product Description" %}</h2>
+        </div>
+        <p>{{ product.description|safe }}</p>
+        {% endif %}
+    {% endblock %}
+
+    {% block product_info %}
+    <div class="sub-header">
+        <h2>{% trans "Product Information" %}</h2>
+    </div>
+    <table class="table table-striped">
+        <tr>
+            <th>{% trans "Product Type" %}</th><td>{{ product.get_product_class.name }}</td>
+        </tr>
+
+        {% for av in product.get_attribute_values %}
+            <tr>
+                <th>{{ av.attribute.name }}</th>
+                <td>{{ av.value_as_html }}</td>
+            </tr>
+        {% endfor %}
+   
+    </table>
+    {% endblock %}
+</article><!-- End of product page -->
+{% endblock content %}
+
+{% block extrascripts %}
+    {{ block.super }}
+{% endblock %}
