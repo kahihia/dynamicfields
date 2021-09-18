@@ -54,9 +54,18 @@
     <div class="sub-header">
         <h2>{% trans "Product Information" %}</h2>
     </div>
+	
     <table class="table table-striped">
         <tr>
             <th>{% trans "Product Type" %}</th><td>{{ product.get_product_class.name }}</td>
+        </tr>
+		<tr>
+            <th>{% trans "Product Address" %}</th><td>{{ product.address }}</td>
+        </tr>
+		<tr>
+            <th>{% trans "Product Town" %}</th><td>{{ product.town }}</td>
+        </tr><tr>
+            <th>{% trans "Product Country" %}</th><td>{{ product.country }}</td>
         </tr>
 
         {% for av in product.get_attribute_values %}

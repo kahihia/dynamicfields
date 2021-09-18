@@ -7,7 +7,6 @@ import unicodedata
 from django.conf import settings
 from django.shortcuts import redirect, resolve_url
 from django.template.defaultfilters import date as date_filter
-from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.module_loading import import_string
 from django.utils.text import slugify as django_slugify
 from django.utils.timezone import get_current_timezone, is_naive, make_aware
@@ -135,7 +134,7 @@ def safe_referrer(request, default):
     or a regular URL
     """
     referrer = request.META.get('HTTP_REFERER')
-    if referrer and url_has_allowed_host_and_scheme(referrer, request.get_host()):
+    if referrer:
         return referrer
     if default:
         # Try to resolve. Can take a model instance, Django URL name or URL.
@@ -153,31 +152,6 @@ def redirect_to_referrer(request, default):
     URL; to the default URL otherwise.
     """
     return redirect(safe_referrer(request, default))
-
-
-def get_default_currency():
-    """
-    For use as the default value for currency fields.  Use of this function
-    prevents Django's core migration engine from interpreting a change to
-    OSCAR_DEFAULT_CURRENCY as something it needs to generate a migration for.
-    """
-    return settings.OSCAR_DEFAULT_CURRENCY
-
-
-def round_half_up(money):
-    """
-    Explicitly round a decimal to 2 places half up, as should be used for
-    money.
-
-    >>> exponent = decimal.Decimal('0.01')
-    >>> should_not_be_one = decimal.Decimal('1.005')
-    >>> should_not_be_one.quantize(exponent)
-    Decimal('1.00')
-    >>> round_half_up(should_not_be_one)
-    Decimal('1.01')
-    """
-    return money.quantize(decimal.Decimal('0.01'), decimal.ROUND_HALF_UP)
-
 
 def is_ajax(request):
     """
