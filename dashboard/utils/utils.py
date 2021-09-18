@@ -7,6 +7,7 @@ import unicodedata
 from django.conf import settings
 from django.shortcuts import redirect, resolve_url
 from django.template.defaultfilters import date as date_filter
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.module_loading import import_string
 from django.utils.text import slugify as django_slugify
 from django.utils.timezone import get_current_timezone, is_naive, make_aware
@@ -134,7 +135,7 @@ def safe_referrer(request, default):
     or a regular URL
     """
     referrer = request.META.get('HTTP_REFERER')
-    if referrer:
+    if referrer and url_has_allowed_host_and_scheme(referrer, request.get_host()):
         return referrer
     if default:
         # Try to resolve. Can take a model instance, Django URL name or URL.
@@ -152,6 +153,8 @@ def redirect_to_referrer(request, default):
     URL; to the default URL otherwise.
     """
     return redirect(safe_referrer(request, default))
+
+
 
 def is_ajax(request):
     """
